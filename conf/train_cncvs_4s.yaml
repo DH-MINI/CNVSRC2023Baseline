@@ -70,6 +70,7 @@ model:
     lsm_weight: 0.1
     transformer_length_normalized_loss: false
     mtlalpha: 0.1
+    mtlbeta: 0.3
     ctc_type: builtin
     rel_pos_type: latest
   language_model:

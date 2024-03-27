@@ -146,7 +146,13 @@ class E2E(torch.nn.Module):
         ys_mask = target_mask(ys_in_pad, self.ignore_id)
         pred_pad, _ = self.decoder(ys_in_pad, ys_mask, x, padding_mask)
         loss_att = self.criterion(pred_pad, ys_out_pad)
-        loss = self.mtlalpha * loss_ctc + (1 - self.mtlalpha) * loss_att
+
+        x_reversed = torch.flip(x, dims=[0])
+
+        pred_pad_reversed, _ = self.decoder(ys_in_pad, ys_mask, x_reversed, padding_mask)
+        loss_att_reversed = self.criterion(pred_pad_reversed, ys_out_pad)
+
+        loss = self.mtlalpha * loss_ctc + (1 - self.mtlalpha) * ((1 - self.mtlbeta) * loss_att + self.mtlbeta * loss_att_reversed)
 
         acc = th_accuracy(
             pred_pad.view(-1, self.odim), ys_out_pad, ignore_label=self.ignore_id
