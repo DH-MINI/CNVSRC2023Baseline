@@ -1,5 +1,5 @@
-code_root_dir: 
-data_root_dir: 
+code_root_dir: /work/sunyiwei/12_10_work/CNVSRC2023Baseline
+data_root_dir: /work/lixiaolou/data/CNVSRC/CNVSRC2023_lips_112
 
 checkpoint:
   save_top_k: 75
@@ -10,7 +10,7 @@ data:
   max_frames_val: 100
   dataset:
     root: ${data_root_dir}
-    label_dir: cncvs/
+    label_dir: /work/sunyiwei/12_10_work/CNVSRC2023Baseline/data/cncvs
     train_file: train.csv
     val_file: valid.csv
     test_file: test.csv
