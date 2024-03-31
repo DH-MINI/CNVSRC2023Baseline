@@ -1,6 +1,11 @@
 code_root_dir: /work/sunyiwei/12_10_work/CNVSRC2023Baseline
 data_root_dir: /work/lixiaolou/data/CNVSRC/CNVSRC2023_lips
 
+# /work/lixiaolou/data/CNVSRC/CNVSRC2023_lips
+# work/liuzehua/task/VSR/data
+hydra:
+  run:
+    dir: ${exp_dir}${exp_name}
 checkpoint:
   save_top_k: 5
 data:
@@ -25,11 +30,11 @@ logger:
   entity: null
 model:
   visual_backbone:
-    adim: 768
-    aheads: 12
-    eunits: 3072
+    adim: 256
+    aheads: 4
+    eunits: 1024
     elayers: 12
-    transformer_input_layer: conv3d
+    transformer_input_layer: ${input_layer}
     dropout_rate: 0.1
     transformer_attn_dropout_rate: 0.1
     transformer_encoder_attn_layer_type: rel_mha
@@ -48,6 +53,9 @@ model:
     mtlalpha: 0.1
     ctc_type: builtin
     rel_pos_type: latest
+    py_ctc_weight: 0.0
+    inter_ctc: ${inter_ctc}
+    encoder_type: ${encoder_type}
   audio_backbone:
     adim: 768
     aheads: 12
@@ -82,7 +90,7 @@ model:
     dropout_rate: 0.0
 optimizer:
   name: adamw
-  lr: 0.0003
+  lr: 0.0001
   warmup_epochs: 2
   weight_decay: 0.03
   betas:
@@ -104,15 +112,20 @@ trainer:
 decode:
   name: default
   snr_target: 999999
-  
+   
 exp_dir: ${code_root_dir}/exp/
-exp_name: cnvsrc-single/
+exp_name: cnvsrc-single_${input_layer}_${encoder_type}/full/
 num_workers: 8
 gpus: 1
-slurm_job_id: 1
 train: true
 log_wandb: false
 infer_path: null
-ckpt_path: ${code_root_dir}/pretrained_models/model_avg_last10_cncvs_4s_30s.pth
+ckpt_path: /work/lixiaolou/program/baseline/exp/cnvsrc-single_conv3d_e_branchformer/4s/last.ckpt
 transfer_frontend: false
-remove_ctc: true
+remove_ctc: false
+inter_ctc: false
+encoder_type: e_branchformer
+input_layer: conv3d
+rnnlm:
+rnnlm_conf: 
+lm_weight: 0
