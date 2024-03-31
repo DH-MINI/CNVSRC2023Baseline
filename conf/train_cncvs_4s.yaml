@@ -1,20 +1,20 @@
 code_root_dir: /work/sunyiwei/12_10_work/CNVSRC2023Baseline
-data_root_dir: /work/lixiaolou/data/CNVSRC/CNVSRC2023_lips_112
+data_root_dir: /work/lixiaolou/data/CNVSRC/CNVSRC2023_lips
 
 checkpoint:
-  save_top_k: 75
+  save_top_k: 30
 data:
   modality: video
   use_audio_normalise: false
   max_frames: 1000
-  max_frames_val: 100
+  max_frames_val: 750
   dataset:
     root: ${data_root_dir}
-    label_dir: /work/sunyiwei/12_10_work/CNVSRC2023Baseline/data/cncvs
-    train_file: train.csv
-    val_file: valid.csv
-    test_file: test.csv
-  max_length: 100
+    label_dir: single100_autoavsr
+    train_file: single100_4s_train.csv
+    val_file: single100_4s_valid.csv
+    test_file: single100_4s_valid.csv
+  max_length: 750
 logger:
   _target_: pytorch_lightning.loggers.WandbLogger
   log_model: true
@@ -46,6 +46,7 @@ model:
     lsm_weight: 0.1
     transformer_length_normalized_loss: false
     mtlalpha: 0.1
+    mtlbeta: 0.3
     ctc_type: builtin
     rel_pos_type: latest
   audio_backbone:
@@ -107,7 +108,7 @@ decode:
   snr_target: 999999
 
 exp_dir: ${code_root_dir}/exp/
-exp_name: cncvs_4s/
+exp_name: cncvs_4s_bitr/
 num_workers: 8
 gpus: 1
 slurm_job_id: 1

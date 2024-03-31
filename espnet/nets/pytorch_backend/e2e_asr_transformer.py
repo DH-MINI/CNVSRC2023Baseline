@@ -3,6 +3,7 @@
 
 """Transformer speech recognition model (pytorch)."""
 
+import pdb
 import logging
 import math
 from argparse import Namespace
@@ -117,6 +118,7 @@ class E2E(torch.nn.Module):
 
         self.adim = args.adim
         self.mtlalpha = args.mtlalpha
+        self.mtlbeta = args.mtlbeta
         if args.mtlalpha > 0.0:
             self.ctc = CTC(
                 odim, args.adim, args.dropout_rate, ctc_type=args.ctc_type, reduce=True
@@ -141,21 +143,31 @@ class E2E(torch.nn.Module):
         if self.proj_decoder:
             x = self.proj_decoder(x)
 
+        reversed_label = torch.flip(label, dims=[2])
+
         # decoder loss
         ys_in_pad, ys_out_pad = add_sos_eos(label, self.sos, self.eos, self.ignore_id)
         ys_mask = target_mask(ys_in_pad, self.ignore_id)
         pred_pad, _ = self.decoder(ys_in_pad, ys_mask, x, padding_mask)
         loss_att = self.criterion(pred_pad, ys_out_pad)
 
-        x_reversed = torch.flip(x, dims=[0])
-
-        pred_pad_reversed, _ = self.decoder(ys_in_pad, ys_mask, x_reversed, padding_mask)
-        loss_att_reversed = self.criterion(pred_pad_reversed, ys_out_pad)
+        #reversed part
+        x_reversed = torch.flip(x, dims=[1])
+        ys_in_pad_reversed, ys_out_pad_reversed = add_sos_eos(reversed_label, self.sos, self.eos, self.ignore_id)
+        pred_pad_reversed, _ = self.decoder(ys_in_pad_reversed, ys_mask, x, padding_mask)
+        loss_att_reversed = self.criterion(pred_pad_reversed, ys_out_pad_reversed)
 
         loss = self.mtlalpha * loss_ctc + (1 - self.mtlalpha) * ((1 - self.mtlbeta) * loss_att + self.mtlbeta * loss_att_reversed)
+
+        # a_pred_pad_reversed = self.decoder(ys_in_pad_reversed, ys_mask, x_reversed, padding_mask)
+        # a_loss_att_reversed = self.criterion(a_pred_pad_reversed, ys_out_pad_reversed)
+        
+
 
         acc = th_accuracy(
             pred_pad.view(-1, self.odim), ys_out_pad, ignore_label=self.ignore_id
         )
+
+
 
         return loss, loss_ctc, loss_att, acc
