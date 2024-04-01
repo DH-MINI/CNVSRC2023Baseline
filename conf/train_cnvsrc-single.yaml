@@ -46,6 +46,7 @@ model:
     lsm_weight: 0.1
     transformer_length_normalized_loss: false
     mtlalpha: 0.1
+    mtlbeta: 0.3
     ctc_type: builtin
     rel_pos_type: latest
   audio_backbone:
@@ -70,6 +71,7 @@ model:
     lsm_weight: 0.1
     transformer_length_normalized_loss: false
     mtlalpha: 0.1
+    mtlbeta: 0.3
     ctc_type: builtin
     rel_pos_type: latest
   language_model:
@@ -113,6 +115,7 @@ slurm_job_id: 1
 train: true
 log_wandb: false
 infer_path: null
-ckpt_path: ${code_root_dir}/pretrained_models/model_avg_last10_cncvs_4s_30s.pth
+# ckpt_path: ${code_root_dir}/pretrained_models/model_avg_last10_cncvs_4s_30s.pth
+ckpt_path: /work/sunyiwei/12_10_work/CNVSRC2023Baseline/exp/cncvs_4s_bitr/bitrepoch50.pth
 transfer_frontend: false
 remove_ctc: true
