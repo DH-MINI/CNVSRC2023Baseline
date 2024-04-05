@@ -1,8 +1,8 @@
-code_root_dir: 
-data_root_dir: 
+code_root_dir: /work/sunyiwei/12_10_work/CNVSRC2023Baseline
+data_root_dir: /work/lixiaolou/data/CNVSRC/CNVSRC2023_lips/
 
 checkpoint:
-  save_top_k: 40
+  save_top_k: 10
 data:
   modality: video
   use_audio_normalise: false
@@ -46,6 +46,7 @@ model:
     lsm_weight: 0.1
     transformer_length_normalized_loss: false
     mtlalpha: 0.1
+    mtlbeta: 0.3
     ctc_type: builtin
     rel_pos_type: latest
   audio_backbone:
@@ -70,6 +71,7 @@ model:
     lsm_weight: 0.1
     transformer_length_normalized_loss: false
     mtlalpha: 0.1
+    mtlbeta: 0.3
     ctc_type: builtin
     rel_pos_type: latest
   language_model:
@@ -112,10 +114,17 @@ gpus: 1
 slurm_job_id: 1
 train: false
 log_wandb: false
-infer_path: ${code_root_dir}/predict/model_avg_last5_cncvs_cnvsrc-single_valid.json
-ckpt_path: ${code_root_dir}/pretrained_models/model_avg_last5_cncvs_cnvsrc-single.pth
+rnnlm: 
+rnnlm_conf: 
+lm_weight: 0
 transfer_frontend: false
 remove_ctc: false
-infer_ckpt_path: ${code_root_dir}/pretrained_models/model_avg_last5_cncvs_cnvsrc-single.pth
-filelist_csv: ${code_root_dir}/data/cnvsrc-single/valid.csv
-device: 'cuda:0'
+inter_ctc: false
+# encoder_type: conformer
+input_layer: conv3d
+infer_ckpt_path: /work/sunyiwei/12_10_work/CNVSRC2023Baseline/exp/cncvs_4s_bitr/bitrepoch50.pth
+filelist_csv: /work/lixiaolou/program/baseline/data/cnvsrc-single/valid.csv
+device: 'cuda'
+beam_size: 40
+task_name: baseline
+infer_path: ${exp_dir}${exp_name}/${task_name}.json

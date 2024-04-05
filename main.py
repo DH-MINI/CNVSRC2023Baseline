@@ -1,6 +1,6 @@
 import logging
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "3"
+os.environ["CUDA_VISIBLE_DEVICES"] = "1,2"
 import hydra
 import torch
 from avg_ckpts import ensemble

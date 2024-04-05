@@ -117,5 +117,6 @@ log_wandb: false
 infer_path: null
 # ckpt_path: ${code_root_dir}/pretrained_models/model_avg_last10_cncvs_4s_30s.pth
 ckpt_path: /work/sunyiwei/12_10_work/CNVSRC2023Baseline/exp/cncvs_4s_bitr/bitrepoch50.pth
+# ckpt_path: /work/sunyiwei/12_10_work/CNVSRC2023Baseline/exp/cnvsrc-single/bitr_whole_epoch18.pth
 transfer_frontend: false
 remove_ctc: true
