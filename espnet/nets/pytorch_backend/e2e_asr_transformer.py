@@ -152,22 +152,18 @@ class E2E(torch.nn.Module):
         loss_att = self.criterion(pred_pad, ys_out_pad)
 
         #reversed part
-        x_reversed = torch.flip(x, dims=[1])
         ys_in_pad_reversed, ys_out_pad_reversed = add_sos_eos(reversed_label, self.sos, self.eos, self.ignore_id)
         pred_pad_reversed, _ = self.decoder(ys_in_pad_reversed, ys_mask, x, padding_mask)
         loss_att_reversed = self.criterion(pred_pad_reversed, ys_out_pad_reversed)
 
         loss = self.mtlalpha * loss_ctc + (1 - self.mtlalpha) * ((1 - self.mtlbeta) * loss_att + self.mtlbeta * loss_att_reversed)
 
-        # a_pred_pad_reversed = self.decoder(ys_in_pad_reversed, ys_mask, x_reversed, padding_mask)
-        # a_loss_att_reversed = self.criterion(a_pred_pad_reversed, ys_out_pad_reversed)
-        
-
-
         acc = th_accuracy(
             pred_pad.view(-1, self.odim), ys_out_pad, ignore_label=self.ignore_id
         )
 
+        acc_reversed = th_accuracy(
+            pred_pad_reversed.view(-1, self.odim), ys_out_pad_reversed, ignore_label=self.ignore_id
+        )
 
-
-        return loss, loss_ctc, loss_att, acc
+        return loss, loss_ctc, loss_att, acc, loss_att_reversed, acc_reversed

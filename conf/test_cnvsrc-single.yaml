@@ -122,7 +122,7 @@ remove_ctc: false
 inter_ctc: false
 # encoder_type: conformer
 input_layer: conv3d
-infer_ckpt_path: /work/sunyiwei/12_10_work/CNVSRC2023Baseline/exp/cncvs_4s_bitr/bitrepoch50.pth
+infer_ckpt_path: /work/sunyiwei/12_10_work/CNVSRC2023Baseline/exp/cnvsrc-single/bitr_whole_epoch25.pth
 filelist_csv: /work/lixiaolou/program/baseline/data/cnvsrc-single/valid.csv
 device: 'cuda'
 beam_size: 40

@@ -25,9 +25,9 @@ logger:
   entity: null
 model:
   visual_backbone:
-    adim: 768
-    aheads: 12
-    eunits: 3072
+    adim: 256
+    aheads: 4
+    eunits: 1024
     elayers: 12
     transformer_input_layer: conv3d
     dropout_rate: 0.1
@@ -108,7 +108,7 @@ decode:
   snr_target: 999999
 
 exp_dir: ${code_root_dir}/exp/
-exp_name: cncvs_4s_bitr/
+exp_name: cnvsrc_4s_bitr/
 num_workers: 8
 gpus: 1
 slurm_job_id: 1
