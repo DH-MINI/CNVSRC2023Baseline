@@ -99,6 +99,17 @@ class E2E(torch.nn.Module):
                 self_attention_dropout_rate=args.transformer_attn_dropout_rate,
                 src_attention_dropout_rate=args.transformer_attn_dropout_rate,
             )
+            self.r_decoder = Decoder(
+                odim=odim,
+                attention_dim=args.ddim,
+                attention_heads=args.dheads,
+                linear_units=args.dunits,
+                num_blocks=args.r_dlayers,
+                dropout_rate=args.dropout_rate,
+                positional_dropout_rate=args.dropout_rate,
+                self_attention_dropout_rate=args.transformer_attn_dropout_rate,
+                src_attention_dropout_rate=args.transformer_attn_dropout_rate,
+            )
         else:
             self.decoder = None
         self.blank = 0
@@ -153,7 +164,7 @@ class E2E(torch.nn.Module):
 
         #reversed part
         ys_in_pad_reversed, ys_out_pad_reversed = add_sos_eos(reversed_label, self.sos, self.eos, self.ignore_id)
-        pred_pad_reversed, _ = self.decoder(ys_in_pad_reversed, ys_mask, x, padding_mask)
+        pred_pad_reversed, _ = self.r_decoder(ys_in_pad_reversed, ys_mask, x, padding_mask)
         loss_att_reversed = self.criterion(pred_pad_reversed, ys_out_pad_reversed)
 
         loss = self.mtlalpha * loss_ctc + (1 - self.mtlalpha) * ((1 - self.mtlbeta) * loss_att + self.mtlbeta * loss_att_reversed)

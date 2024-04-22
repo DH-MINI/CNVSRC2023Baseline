@@ -159,7 +159,7 @@ class ModelModule(LightningModule):
 
             self.log("loss_att_reversed_val",loss_att_reversed,batch_size=batch_size)
             self.log("decoder_acc_val_reversed",acc_reversed,batch_size=batch_size)
-
+ 
         if step_type == "train":
             self.log(
                 "monitoring_step", torch.tensor(self.global_step, dtype=torch.float32)

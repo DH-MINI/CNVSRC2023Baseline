@@ -39,10 +39,11 @@ model:
     zero_triu: false
     a_upsample_ratio: 1
     relu_type: swish
-    ddim: 768
-    dheads: 12
+    ddim: ${model.visual_backbone.adim}
+    dheads: ${model.visual_backbone.aheads}
     dunits: 3072
     dlayers: 6
+    r_dlayers: 3
     lsm_weight: 0.1
     transformer_length_normalized_loss: false
     mtlalpha: 0.1
@@ -108,7 +109,7 @@ decode:
   snr_target: 999999
 
 exp_dir: ${code_root_dir}/exp/
-exp_name: cnvsrc_4s_bitr/
+exp_name: cnvsrc_4s_bitr_256dim_2decoder/
 num_workers: 8
 gpus: 1
 slurm_job_id: 1

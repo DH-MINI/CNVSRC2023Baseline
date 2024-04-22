@@ -36,8 +36,8 @@ paths = [
     # '/work/sunyiwei/12_10_work/CNVSRC2023Baseline/exp/cncvs_4s/epoch=18.ckpt',
     # '/work/sunyiwei/12_10_work/CNVSRC2023Baseline/exp/cncvs_4s/epoch=19.ckpt',
     # '/work/sunyiwei/12_10_work/CNVSRC2023Baseline/exp/cncvs_4s/epoch=20.ckpt',
-    '/work/sunyiwei/12_10_work/CNVSRC2023Baseline/exp/cnvsrc-single/epoch=24.ckpt'
+    '/work/sunyiwei/12_10_work/CNVSRC2023Baseline/exp/cnvsrc-single/epoch=79.ckpt'
 ]
 
 state_dicts = average_checkpoints(paths)
-torch.save(state_dicts, './bitr_whole_epoch25.pth')
+torch.save(state_dicts, './bitr_dim=256_2decoder_all_epoch80.pth')

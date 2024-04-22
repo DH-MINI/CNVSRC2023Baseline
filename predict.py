@@ -1,6 +1,6 @@
 import logging
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 from pathlib import Path
 import hydra
 import torch
@@ -146,6 +146,7 @@ def main(cfg):
         video = video_pipeline(video)
         with torch.no_grad():
             enc_feat, _ = model.encoder(video.unsqueeze(0).to(device), None)
+            # enc_feat = model.proj_decoder(enc_feat)
             enc_feat = enc_feat.squeeze(0)
             nbest_hyps = beam_search(enc_feat)
             nbest_hyps = [h.asdict() for h in nbest_hyps[: min(len(nbest_hyps), 1)]]

@@ -25,9 +25,9 @@ logger:
   entity: null
 model:
   visual_backbone:
-    adim: 768
-    aheads: 12
-    eunits: 3072
+    adim: 256
+    aheads: 4
+    eunits: 1024
     elayers: 12
     transformer_input_layer: conv3d
     dropout_rate: 0.1
@@ -39,10 +39,11 @@ model:
     zero_triu: false
     a_upsample_ratio: 1
     relu_type: swish
-    ddim: 768
-    dheads: 12
+    ddim: ${model.visual_backbone.adim}
+    dheads: ${model.visual_backbone.aheads}
     dunits: 3072
     dlayers: 6
+    r_dlayers: 3
     lsm_weight: 0.1
     transformer_length_normalized_loss: false
     mtlalpha: 0.1
@@ -122,7 +123,7 @@ remove_ctc: false
 inter_ctc: false
 # encoder_type: conformer
 input_layer: conv3d
-infer_ckpt_path: /work/sunyiwei/12_10_work/CNVSRC2023Baseline/exp/cnvsrc-single/bitr_whole_epoch25.pth
+infer_ckpt_path: /work/sunyiwei/12_10_work/CNVSRC2023Baseline/exp/cnvsrc-single_bitr_2de/bitr_dim=256_2decoder_all_epoch80.pth
 filelist_csv: /work/lixiaolou/program/baseline/data/cnvsrc-single/valid.csv
 device: 'cuda'
 beam_size: 40

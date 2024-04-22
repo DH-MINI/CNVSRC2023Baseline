@@ -25,9 +25,9 @@ logger:
   entity: null
 model:
   visual_backbone:
-    adim: 768
-    aheads: 12
-    eunits: 3072
+    adim: 256
+    aheads: 4
+    eunits: 1024
     elayers: 12
     transformer_input_layer: conv3d
     dropout_rate: 0.1
@@ -43,6 +43,7 @@ model:
     dheads: ${model.visual_backbone.aheads}
     dunits: 3072
     dlayers: 6
+    r_dlayers: 3
     lsm_weight: 0.1
     transformer_length_normalized_loss: false
     mtlalpha: 0.1
@@ -116,7 +117,7 @@ train: true
 log_wandb: false
 infer_path: null
 # ckpt_path: ${code_root_dir}/pretrained_models/model_avg_last10_cncvs_4s_30s.pth
-ckpt_path: /work/sunyiwei/12_10_work/CNVSRC2023Baseline/exp/cncvs_4s_bitr/bitrepoch50.pth
+ckpt_path: /work/sunyiwei/12_10_work/CNVSRC2023Baseline/exp/cnvsrc_4s_bitr_256dim_2decoder/bitr_dim=256_4s_epoch25.pth
 # ckpt_path: /work/sunyiwei/12_10_work/CNVSRC2023Baseline/exp/cnvsrc-single/bitr_whole_epoch18.pth
 transfer_frontend: false
 remove_ctc: true
